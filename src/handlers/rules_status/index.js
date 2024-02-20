@@ -30,8 +30,14 @@
         result = fileContent.toString();
         const match = fileContent.match(regex);
         if (match) {
-          timestamp = match[1]; // Extract matched characters before "- INFO"
-          status = 'READY';
+          let time = match[1]// Extract matched characters before "- INFO"
+          time = time.replace(/,/g, '.');
+          let date = new Date(time);
+          timestamp = date.toISOString(); 
+          if (result.includes(status) || result.includes('error'))
+            status = 'ERROR';
+          else
+            status = 'READY';
         } else {
           console.error('No matching pattern found in file content');
           result = 'No matching pattern found';
