@@ -1,10 +1,10 @@
 # Index to search, wildcard supported
-namae: "demo"
+name: "demo"
 query_string: "*"
 
 # Alert on each event: Any, Blacklist, Whitelist, Change, Frequency, Spike, Flatline, NewTerm, Cardinality,...
 type: flatline
-threshoald: 1
+threshold: 1
 timeframe:
   minutes: 60
 # use_count_query: true
