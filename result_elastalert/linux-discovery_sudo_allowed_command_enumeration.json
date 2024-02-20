@@ -1,0 +1,2 @@
+name: 'Sudo Command Enumeration Detected'
+query_string: 'process.name: "sudo" AND  process.args : "-l" AND event.action: process_started'

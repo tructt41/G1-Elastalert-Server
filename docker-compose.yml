@@ -1,0 +1,86 @@
+version: "3.6"
+
+services:
+    elasticsearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch:8.10.4
+        container_name: elasticsearch
+        environment:
+            node.name: elasticsearch
+            ES_JAVA_OPTS: "-Xmx512m -Xms512m"
+            discovery.type: single-node
+            ELASTIC_USERNAME: elastic
+            ELASTIC_PASSWORD: changeme
+            xpack.security.enabled: "false"
+        ports:
+            - "9200:9200"
+            - "9300:9300"
+        networks:
+            - elastic-net
+        volumes:
+#            - type: bind
+#              source: "./elasticsearch/config/elasticsearch.yml"
+#              target: /usr/share/elasticsearch/config/elasticsearch.yml
+            - type: bind
+              source: ./docker/data
+              target: /usr/share/elasticsearch/data
+
+    kibana:
+        image: docker.elastic.co/kibana/kibana:8.10.4
+        container_name: kibana
+        ports:
+            - "5601:5601"
+        networks:
+            - elastic-net
+        volumes:
+            - type: bind
+              source: ./docker/kibana/config/kibana.yml
+              target: /usr/share/kibana/config/kibana.yml
+        depends_on:
+            - elasticsearch
+
+    elastalert:
+        container_name: elastalert
+        ports:
+          - "3030:3030"
+        networks:
+          - elastic-net
+        build:
+          context: .
+          dockerfile: Dockerfile
+        depends_on:
+          - elasticsearch
+        volumes:
+          - type: bind
+            source: ./supervisord
+            target: /opt/elastalert/supervisord
+          - type: bind
+            source: ./config/config.json
+            target: /opt/elastalert-server/config/config.json
+          - type: bind
+            source: ./config/supervisor.conf
+            target: /etc/supervisor/supervisor.conf
+          - type: bind
+            source: ./rules
+            target: /opt/elastalert/rules
+          - type: bind
+            source: ./result_elastalert
+            target: /opt/elastalert/result_elastalert
+          - type: bind
+            source: ./elastalert_modules
+            target: /opt/elastalert/elastalert_modules
+          - type: bind
+            source: ./rule_templates
+            target: /opt/elastalert/rule_templates
+          - type: bind
+            source: ./src
+            target: /opt/elastalert-server/src
+          ## edit python to custom elastalert
+          - type: bind
+            source: ./result_elastalert/elastalert.py
+            target: /opt/elastalert/elastalert/elastalert.py
+          - type: bind
+            source: ./result_elastalert/loaders.py
+            target: /opt/elastalert/elastalert/loaders.py
+networks:
+    elastic-net:
+        driver: bridge

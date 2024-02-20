@@ -1,0 +1,56 @@
+{
+  "name": "@johnsusek/elastalert-server",
+  "version": "20231017",
+  "description": "A server that runs ElastAlert and exposes REST API's for manipulating rules and alerts.",
+  "license": "MIT",
+  "main": "index.js",
+  "author": {
+    "name": "John Susek",
+    "url": "https://github.com/johnsusek",
+    "email": "john@johnsolo.net"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johnsusek/elastalert-server.git"
+  },
+  "directories": {
+    "lib": "./lib",
+    "test": "./test"
+  },
+  "dependencies": {
+    "@babel/cli": "^7.23.0",
+    "@babel/core": "^7.23.2",
+    "@babel/preset-env": "^7.23.2",
+    "@babel/register": "^7.22.15",
+    "@opensearch-project/opensearch": "^2.4.0",
+    "axios": "^1.5.1",
+    "bunyan": "^1.8.15",
+    "cors": "^2.8.5",
+    "cpu-stat": "^2.0.1",
+    "es5": "npm:@elastic/elasticsearch@^5.6.22",
+    "es6": "npm:@elastic/elasticsearch@^6.8.8",
+    "es7": "npm:@elastic/elasticsearch@^7.17.0",
+    "es8": "npm:@elastic/elasticsearch@^8.10.0",
+    "express": "^4.18.2",
+    "fs-extra": "^11.1.1",
+    "joi": "^17.11.0",
+    "js-yaml": "^4.1.0",
+    "lodash": "^4.17.21",
+    "mkdirp": "^3.0.1",
+    "object-resolve-path": "^1.1.1",
+    "randomstring": "^1.3.0",
+    "readdirp": "^3.6.0",
+    "recursive-readdir": "^2.2.3",
+    "ws": "^8.14.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.51.0"
+  },
+  "scripts": {
+    "build": "babel src -d lib",
+    "start": "sh ./scripts/start.sh",
+    "update-authors": "./scripts/update-authors.sh",
+    "lint": "./node_modules/eslint/bin/eslint.js .",
+    "lint:fix": "./node_modules/eslint/bin/eslint.js --fix ."
+  }
+}

@@ -1,0 +1,2 @@
+name: "[g1-soc] Missing log from log-source id: g1-hq-aws-cloudtrail"
+query_string: "*
